@@ -38,21 +38,20 @@ function Grid(xSize, ySize)
   };
   this.convertOutOfGridMove = function(position)
   {
+    var newPosition = position;
     if (position[0] < 0) {
-      position[0] = position[0] + grid.ySize;
+      newPosition[0] = newPosition[0] + grid.ySize;
     }
-
-    if (position[1] < 0) {
-      position[1] = position[1] + grid.xSize;
+    if (newPosition[1] < 0) {
+      newPosition[1] = newPosition[1] + grid.xSize;
     }
-
-    if (position[0] > grid.ySize - 1) {
-      position[0] = position[0] - grid.ySize;
+    if (newPosition[0] > grid.ySize - 1) {
+      newPosition[0] = newPosition[0] - grid.ySize;
     }
-
     if (position[1] > grid.xSize - 1) {
-      position[1] = position[1] - grid.xSize;
+      newPosition[1] = newPosition[1] - grid.xSize;
     }
+    return newPosition;
   };
   this.addObstacle = function(obstaclePosition)
   {
@@ -78,45 +77,27 @@ function Movement(grid)
     switch(rover.direction) {
       case 'N':
         tempPosition = new Array(rover.position[0] + 1, rover.position[1]);
-        if (grid.isFreeOfObstacles(tempPosition)) {
-          rover.position = tempPosition;
-        } else {
-          canMove = false;
-        }
         break;
       case 'E':
         tempPosition = new Array(rover.position[0], rover.position[1]+1);
-        if (grid.isFreeOfObstacles(tempPosition)) {
-          rover.position = tempPosition;
-        } else {
-          canMove = false;
-        }
         break;
       case 'S':
         tempPosition = new Array(rover.position[0]-1, rover.position[1]);
-         if (grid.isFreeOfObstacles(tempPosition)) {
-            rover.position = tempPosition;
-          } else {
-            canMove = false;
-          }
         break;
       case 'W':
         tempPosition = new Array(rover.position[0], rover.position[1]-1);
-        if (grid.isFreeOfObstacles(tempPosition)) {
-           rover.position = tempPosition;
-         } else {
-           canMove = false;
-         }
         break;
     }
-    if (!grid.validateMove(rover.position)) {
-      grid.convertOutOfGridMove(rover.position);
+    if (!grid.validateMove(tempPosition)) {
+      tempPosition = grid.convertOutOfGridMove(tempPosition);
     }
-
-    if (!canMove){
+    if (grid.isFreeOfObstacles(tempPosition)) {
+      rover.position = tempPosition;
+    } else {
       var result = 'Obstacle found at [' + tempPosition + '] - Stopping rover';
       console.log(result);
       document.getElementById('result').innerHTML += result + '<br>';
+      canMove = false;
     }
     return canMove;
   };
@@ -125,44 +106,27 @@ function Movement(grid)
     switch(rover.direction) {
       case 'N':
         tempPosition = new Array(rover.position[0]-1, rover.position[1]);
-        if (grid.isFreeOfObstacles(tempPosition)) {
-           rover.position = tempPosition;
-         } else {
-           canMove = false;
-         }
         break;
       case 'E':
         tempPosition = new Array(rover.position[0], rover.position[1]-1);
-        if (grid.isFreeOfObstacles(tempPosition)) {
-           rover.position = tempPosition;
-         } else {
-           canMove = false;
-         }
         break;
       case 'S':
         tempPosition = new Array(rover.position[0]+1, rover.position[1]);
-        if (grid.isFreeOfObstacles(tempPosition)) {
-           rover.position = tempPosition;
-         } else {
-           canMove = false;
-         }
         break;
       case 'W':
         tempPosition = new Array(rover.position[0], rover.position[1]+1);
-        if (grid.isFreeOfObstacles(tempPosition)) {
-           rover.position = tempPosition;
-         } else {
-           canMove = false;
-         }
         break;
     }
-    if (!grid.validateMove(rover.position)) {
-      grid.convertOutOfGridMove(rover.position);
+    if (!grid.validateMove(tempPosition)) {
+      tempPosition = grid.convertOutOfGridMove(tempPosition);
     }
-    if (!canMove){
+    if (grid.isFreeOfObstacles(tempPosition)) {
+      rover.position = tempPosition;
+    } else {
       var result = 'Obstacle found at [' + tempPosition + '] - Stopping rover';
       console.log(result);
       document.getElementById('result').innerHTML += result + '<br>';
+      canMove = false;
     }
     return canMove;
   };
@@ -218,8 +182,7 @@ function initialize() {
     if (!rover1.move(movementCode[i])) {
       //obstacle found
       break;
-    }
-    else {
+    } else {
       //print result
       var result = "Rover " + rover1.name + " moved to position: [" + rover1.position[0] + ", " + rover1.position[1] + "]";
       document.getElementById('result').innerHTML += result + "<br>";
