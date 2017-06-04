@@ -2,8 +2,47 @@
 <head>
 	<title>Mars Rover Kata!</title>
 	<script type="text/javascript" src="rover.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
-
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<form>
+					<div class="form-group">
+						<label for="gridSize">Select grid size:</label>
+						<input type="text" placeholder="example: 10" id="gridSize"><br>
+					</div>
+					<div class="form-group">
+						<label for="obstacle">Add an obstacle:</label>
+						<input type="text" placeholder="example: [4,2]" id="obstacle"><br>
+					</div>
+					<div class="form-group">
+						<label for="roverName">Rover name:</label>
+						<input type="text" placeholder="example: Mike" id="roverName"><br>
+					</div>
+					<div class="form-group">
+						<label for="roverInitialPostion">Rover initial position:</label>
+						<input type="text" placeholder="example: [0,0]" id="roverInitialPosition"><br>
+					</div>
+					<div class="form-group">
+						<label for="roverInitialDirection">Rover initial direction:</label>
+						<input type="text" placeholder="example: N" id="roverInitialDirection"><br>
+					</div>
+					<div class="form-group">
+						<label for="movementCode">Movement code:</label>
+						<input type="text" placeholder="example: fffrfflfffbb" id="movementCode"><br>
+					</div>
+					<div class="form-group">
+						<button type="button" onclick="initialize()" class="btn btn-success">GO!</button>
+					</div>
+					<div class="form-group">
+						<label for="result">Result:</label>
+						<div id="result"></div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
